@@ -10,25 +10,52 @@ const Login = () => {
         email: "",
         password: ""
     });
-    const handleOnChange = (e) =>{
-        const { name , value } = e.target
+    const handleOnChange = (e) => {
+        const { name, value } = e.target
 
-        setData((preve)=>{
-            return{
+        setData((preve) => {
+            return {
                 ...preve,
-                [name] : value
+                [name]: value
             }
         })
     }
 
+    const handleSubmit = async (e) => {
+        e.preventDefault()
+
+        // const dataResponse = await fetch(SummaryApi.signIn.url,{
+        //     method : SummaryApi.signIn.method,
+        //     credentials : 'include',
+        //     headers : {
+        //         "content-type" : "application/json"
+        //     },
+        //     body : JSON.stringify(data)
+        // })
+
+        // const dataApi = await dataResponse.json()
+
+        // if(dataApi.success){
+        //     toast.success(dataApi.message)
+        //     navigate('/')
+        //     fetchUserDetails()
+        //     fetchUserAddToCart()
+        // }
+
+        // if(dataApi.error){
+        //     toast.error(dataApi.message)
+        // }
+
+    }
+
     return (
-        <section id='login' className='min-h-screen flex items-center justify-center bg-gray-100'>
+        <section id='login' className=' flex items-center justify-center bg-gray-100'>
             <div className='container mx-auto p-4'>
-                <div className='bg-white rounded-lg shadow-md p-6 w-full max-w-md mx-auto'>
-                    <form className='pt-4 flex flex-col gap-4 mt-1'>
-                        <div className='w-60 h-60 mx-auto '>
-                            <img src={signinIcon} alt='login icons' />
-                        </div>
+                <div className='bg-white rounded-lg shadow-md p-6 w-full max-w-md mx-auto mt-2 mb-0'>
+                    <div className='w-30 h-30 '>
+                        <img src={signinIcon} alt='login icons' />
+                    </div>
+                    <form className='flex flex-col gap-4 ' onSubmit={handleSubmit}>
                         <div className='grid'>
                             <label className='mb-1 font-semibold'>Email:</label>
                             <div className='bg-gray-100 p-2 rounded-md'>
@@ -36,6 +63,8 @@ const Login = () => {
                                     type='email'
                                     placeholder='Enter email'
                                     name='email'
+                                    value={data.email}
+                                    onChange={handleOnChange}
                                     className='w-full h-full outline-none bg-transparent'
                                 />
                             </div>
@@ -49,6 +78,7 @@ const Login = () => {
                                     placeholder='Enter password'
                                     value={data.password}
                                     name='password'
+                                    onChange={handleOnChange}
                                     className='w-full h-full outline-none bg-transparent'
                                 />
                                 <div
@@ -62,7 +92,7 @@ const Login = () => {
                                 Forgot password?
                             </Link>
                         </div>
-                        <button className='bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 w-full max-w-[150px] rounded-full hover:scale-110 transition-all mx-auto block mt-2'>Login</button>
+                        <button className='bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 w-full max-w-[150px] rounded-full hover:scale-110 transition-all mx-auto block mt-4'>Login</button>
 
                     </form>
 
