@@ -3,6 +3,8 @@ import signinIcon from '../assest/signIn.gif'
 import { FaEye } from "react-icons/fa";
 import { FaEyeSlash } from "react-icons/fa";
 import { Link, useNavigate } from 'react-router-dom';
+import EndPoint from '../common';
+import { toast } from 'react-toastify';
 
 const SignUp = () => {
     const [showPassword, setShowPassword] = useState(false);
@@ -14,6 +16,8 @@ const SignUp = () => {
         confirmPassword: "",
         // profilePic: "",
     });
+    
+  const navigate = useNavigate()
     const handleOnChange = (e) => {
         const { name, value } = e.target
 
@@ -27,31 +31,32 @@ const SignUp = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault()
+        
+        if(data.password === data.confirmPassword){
 
-        // if(data.password === data.confirmPassword){
+          const dataResponse = await fetch(EndPoint.signUp.url, {
+            method: EndPoint.signUp.method,
+            headers: {
+                "content-type": "application/json"
+            },
+            body: JSON.stringify(data)
+        })
+    
 
-        //   const dataResponse = await fetch(SummaryApi.signUP.url,{
-        //       method : SummaryApi.signUP.method,
-        //       headers : {
-        //           "content-type" : "application/json"
-        //       },
-        //       body : JSON.stringify(data)
-        //     })
+        const dataApi = await dataResponse.json()
+    
+            if(dataApi.success){
+              toast.success(dataApi.message)
+              navigate("/login")
+            }
 
-        //     const dataApi = await dataResponse.json()
+            if(dataApi.error){
+              toast.error(dataApi.message)
+            }
 
-        //     if(dataApi.success){
-        //       toast.success(dataApi.message)
-        //       navigate("/login")
-        //     }
-
-        //     if(dataApi.error){
-        //       toast.error(dataApi.message)
-        //     }
-
-        // }else{
-        //   toast.error("Please check password and confirm password")
-        // }
+        }else{
+          toast.error("Please check password and confirm password")
+        }
 
     }
     return (
@@ -108,10 +113,10 @@ const SignUp = () => {
                                     {showPassword ? <FaEyeSlash /> : <FaEye />}
                                 </div>
                             </div>
-                            
+
                         </div>
                         <div>
-                        <label className='mb-1 font-semibold'>Confirm Password : </label>
+                            <label className='mb-1 font-semibold'>Confirm Password : </label>
                             <div className='bg-gray-100 p-2 flex rounded-md'>
                                 <input
                                     type={showConfirmPassword ? "text" : "password"}
